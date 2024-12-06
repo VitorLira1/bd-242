@@ -1,0 +1,115 @@
+@startuml
+
+entity TB_CUSTOMERS {
+    * Id: integer
+    --
+    FirstName: nvarchar(40)
+    LastName: nvarchar(20)
+    Company: nvarchar(80)
+    Address: nvarchar(70)
+    City: nvarchar(40)
+    State: nvarchar(40)
+    Country: nvarchar(40)
+    PostalCode: nvarchar(10)
+    Phone: nvarchar(24)
+    Fax: nvarchar(24)
+    Email: nvarchar(60)
+    SupportRepid: integer
+}
+
+entity TB_EMPLOYEES {
+    * Id: integer
+    --
+    LastName: varchar(20)
+    FirstName: varchar(20)
+    Title: varchar(30)
+    ReportsTo: integer
+    BirthDate: datetime
+    HireDate: datetime
+    Address: varchar(70)
+}
+
+entity TB_INVOICES {
+    * Id: integer
+    --
+    * CustomerId: integer <<FK>>
+    InvoiceDate: datetime
+    BillingAddress: ncarchar(70)
+    BillingCity: varchar(40)
+}
+
+entity TB_INVOICES_ITEMS {
+    * Id: integer
+    --
+    * InvoiceId: integer <<FK>>
+    * TrackId: integer <<FK>>
+    UnitPrice: numeric
+    Quantity: integer
+}
+
+entity TB_ALBUMS {
+    * Id: integer
+    --
+    Title: nvarchar(160)
+    * ArtistId: integer <<FK>>
+}
+
+entity TB_PLAYLISTS{
+    * Id: integer
+    --
+    Name: nvarchar(120)
+}
+
+entity TB_PLAYLIST_TRACK{
+    * PlayListId: integer <<FK>>
+    *TrackId: integer <<FK>>
+}
+
+entity TB_TRACKS{
+    * Id: integer
+    --
+    Name: varchar(200)
+    * AlbumId: integer <<FK>>
+     MediaTypeId: integer <<FK>>
+     GenreId: integer <<FK>
+     Composer: varchar(220)
+     Milliseconds: integer
+     Bytes: integer
+     UnitPrice: numeric
+}
+
+entity TB_ARTISTS{
+    * Id: integer
+    --
+    Name: varchar(120)
+}
+
+entity TB_MEDIA_TYPES{
+    * Id: integer
+    --
+    Name: varchar(120)
+}
+
+entity TB_GENRES{
+    * Id: integer
+    --
+    Name: varchar(120)
+}
+
+TB_CUSTOMERS ||..o{ TB_INVOICES
+TB_CUSTOMERS }o..o| TB_EMPLOYEES
+TB_EMPLOYEES }o..o| TB_EMPLOYEES
+
+TB_INVOICES ||..o{ TB_INVOICES_ITEMS
+TB_INVOICES_ITEMS }o..|| TB_TRACKS
+
+TB_ALBUMS |o..o{ TB_TRACKS
+TB_ALBUMS }o..|| TB_ARTISTS
+
+TB_PLAYLISTS ||..o| TB_PLAYLIST_TRACK
+TB_PLAYLIST_TRACK |o..|| TB_TRACKS
+
+TB_TRACKS }o..|| TB_MEDIA_TYPES
+TB_TRACKS }o..o| TB_GENRES
+
+@enduml
