@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="SCA_242.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1475"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="TB_CURSO_PROFESSOR" custom_title="0" dock_id="1" table="4,18:mainTB_CURSO_PROFESSOR"/><table title="TB_CURSO" custom_title="0" dock_id="2" table="4,8:mainTB_CURSO"/><table title="TB_CURSO_PROFESSOR" custom_title="0" dock_id="5" table="4,18:mainTB_CURSO_PROFESSOR"/><table title="TB_PROFESSOR" custom_title="0" dock_id="4" table="4,12:mainTB_PROFESSOR"/><dock_state state="000000ff00000000fd0000000100000002000005a400000380fc0100000001fc00000000000005a40000012a00fffffffa000000010100000005fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000012a00fffffffb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000012a00fffffffb000000160064006f0063006b00420072006f00770073006500330000000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000012a00fffffffb000000160064006f0063006b00420072006f00770073006500350100000000ffffffff0000012a00ffffff000005a40000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="TB_CURSO" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="135"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="TB_CURSO_PROFESSOR" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="82"/><column index="3" value="113"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="TB_PROFESSOR" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="151"/><column index="3" value="82"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">PRAGMA foreing_keys = ON;
+
+CREATE TABLE TB_CURSO (
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	NOME TEXT NOT NULL
+);
+
+CREATE TABLE TB_PROFESSOR (
+	ID INTEGER,
+	NOME TEXT NOT NULL,
+	CURSO_ID INTEGER,
+	
+	PRIMARY KEY(&quot;ID&quot; AUTOINCREMENT),
+	FOREIGN KEY(CURSO_ID) REFERENCES TB_CURSO (ID)
+);
+
+CREATE TABLE TB_CURSO_PROFESSOR (
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	CURSO_ID INTEGER,
+	PROFESSOR_ID INTEGER,
+	
+	FOREIGN KEY(CURSO_ID) REFERENCES TB_CURSO (ID),
+	FOREIGN KEY(PROFESSOR_ID) REFERENCES TB_PROFESSOR (ID)
+);
+
+INSERT INTO TB_CURSO(NOME) 
+	VALUES (&quot;Informática&quot;), (&quot;Telecomunicações&quot;), (&quot;Eletrotécnica&quot;), (&quot;Mecânica&quot;),
+	(&quot;Edificações&quot;), (&quot;Turismo&quot;), (&quot;Química&quot;);
+	
+INSERT INTO TB_PROFESSOR(NOME, CURSO_ID)
+	VALUES (&quot;Cesar Olavo&quot;, 1), (&quot;Davis Macedo&quot;, 1), (&quot;Serra Furtado&quot;, 1), 
+	(&quot;Mauricio Jaborandi&quot;, 1), (&quot;Marcos Lemos&quot;, 4);
+	
+INSERT INTO TB_PROFESSOR(NOME) 
+	VALUES (&quot;José Roberto&quot;), (&quot;Gloria Marinho&quot;);
+	
+UPDATE TB_PROFESSOR
+SET CURSO_ID = 1
+WHERE ID = 6;
+UPDATE TB_PROFESSOR
+SET CURSO_ID = 7
+WHERE ID = 7;
+
+
+INSERT INTO TB_CURSO_PROFESSOR(CURSO_ID, PROFESSOR_ID)
+	VALUES (1, 1), (1, 2), (1, 3), (1, 4), (4, 5), (1, 6), (7, 7);
+	
+SELECT TB_CURSO.NOME , TB_PROFESSOR.NOME 
+FROM 
+	TB_CURSO
+INNER JOIN 
+	TB_CURSO_PROFESSOR
+INNER JOIN
+	TB_PROFESSOR ON TB_CURSO.ID = TB_CURSO_PROFESSOR.CURSO_ID
+	AND 
+	TB_PROFESSOR.ID = TB_CURSO_PROFESSOR.PROFESSOR_ID;
+
+
+
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
